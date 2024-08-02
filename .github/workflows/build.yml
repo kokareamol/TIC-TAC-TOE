@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Build
+    name: Building
     runs-on: [self-hosted]
     steps:
       - name: checkout code
@@ -28,5 +28,5 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      - name: npm install dependencies
+      - name: npm install
         run: npm install
