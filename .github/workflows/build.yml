@@ -33,3 +33,13 @@ jobs:
 
       - name: trivy file system scan
         run: trivy fs --format table -o outputfs.txt .
+
+      - name: docker build and push
+        run: |
+          docker build -t tic-tac .
+          docker tag tic-tac kokareamol/tic-tac:latest
+          docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+          docker push kokareamol/tic-tac:latest
+
+        env:
+          DOCKER_CLI_ACI: 1
