@@ -43,3 +43,6 @@ jobs:
 
         env:
           DOCKER_CLI_ACI: 1
+
+      - name: trivy image scan
+        run: trivy image --format table -o outputimg.html kokareamol/tic-tac:latest
