@@ -27,6 +27,10 @@ jobs:
         timeout-minutes: 5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: actions/setup-node
+        uses: actions/setup-node@v1.4.1
+        with:
+          node-version: "13.9.0"
 
       - name: npm install
         uses: jaid/action-npm-install@v1.2.1
