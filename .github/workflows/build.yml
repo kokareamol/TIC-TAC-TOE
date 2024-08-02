@@ -29,4 +29,4 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: npm install
-        run: npm install
+        uses: jaid/action-npm-install@v1.2.1
