@@ -7,8 +7,8 @@ on:
 
 
 jobs:
-  build:
-    name: Building
+  build-stages:
+    name: Build-scan-analyze
     runs-on: [self-hosted]
     steps:
       - name: checkout code
@@ -45,4 +45,24 @@ jobs:
           DOCKER_CLI_ACI: 1
 
       - name: trivy image scan
-        run: trivy image --format table -o outputimg.html kokareamol/tic-tac:latest
+        run: trivy image --format table -o buildimg.html kokareamol/tic-tac:latest
+  
+  Deploy:
+    needs: build-stages
+    runs-on: [self-hosted]
+    steps:
+      - name: docker pull image
+        run: docker pull kokareamol/tic-tac:latest
+
+      - name: trivy image scan
+        run: trivy image --format table -o deployimg.html kokareamol/tic-tac:latest
+      
+      - name: deploy to container
+        run: docker run -d --name tic-game -p 3000:3000 kokareamol/tic-tac:latest
+
+      - name: update kubeconfig file
+        run: aws eks update-kubeconfig --name EKS_CLOUD --region ap-south-1
+
+      - name: deploy to eks
+        run: kubectl apply -f deployment-service.yml
+
